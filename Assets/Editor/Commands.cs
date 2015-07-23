@@ -16,7 +16,11 @@ class Cmd_checkpoint : CCommand
 		if (transforms.Count == 1 && Application.isPlaying)
 		{
 			// 2. find player
+			GameObject player = GameObject.FindGameObjectWithTag("Player");
+
 			// 3. move player to checkpoint (if play mode)
+			Component spawnAtCheckpoint  = player.GetComponent("SpawnAtCheckpoint");
+			spawnAtCheckpoint.SendMessage("SpawnAt", transforms[0].transform);
 		}
 		else
 		{

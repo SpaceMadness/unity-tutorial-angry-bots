@@ -4,6 +4,10 @@
 var checkpoint : Transform;
 
 function OnSignal () {
+	SpawnAt(checkpoint);
+}
+
+function SpawnAt (checkpoint : Transform) {
 	transform.position = checkpoint.position;
 	transform.rotation = checkpoint.rotation;
 	
