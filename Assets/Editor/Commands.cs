@@ -13,13 +13,18 @@ class Cmd_checkpoint : CCommand
 	{
 		// 1. find checkpoint
 		IList<SpawnTransform> transforms = FindSpawnTransforms(name);
-		foreach (SpawnTransform t in transforms)
+		if (transforms.Count == 1 && Application.isPlaying)
 		{
-			PrintIndent(t.name);
+			// 2. find player
+			// 3. move player to checkpoint (if play mode)
 		}
-
-		// 2. find player
-		// 3. move player to checkpoint (if play mode)
+		else
+		{
+			foreach (SpawnTransform t in transforms)
+			{
+				PrintIndent(t.name);
+			}
+		}
 	}
 
 	IList<SpawnTransform> FindSpawnTransforms (string prefix) // why IList?
