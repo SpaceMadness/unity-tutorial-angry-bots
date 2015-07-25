@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 
 using System;
 using System.Collections;
@@ -13,14 +14,22 @@ class Cmd_checkpoint : CCommand
 	{
 		// 1. find checkpoint
 		IList<SpawnTransform> transforms = FindSpawnTransforms(name);
-		if (transforms.Count == 1 && Application.isPlaying)
+		if (transforms.Count == 1)
 		{
-			// 2. find player
-			GameObject player = GameObject.FindGameObjectWithTag("Player");
+			if (Application.isPlaying)
+			{
+				// 2. find player
+				GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-			// 3. move player to checkpoint (if play mode)
-			Component spawnAtCheckpoint  = player.GetComponent("SpawnAtCheckpoint");
-			spawnAtCheckpoint.SendMessage("SpawnAt", transforms[0].transform);
+				// 3. move player to checkpoint (if play mode)
+				Component spawnAtCheckpoint = player.GetComponent("SpawnAtCheckpoint");
+				spawnAtCheckpoint.SendMessage("SpawnAt", transforms[0].transform);
+			}
+			else if (IsManualMode)
+			{
+				Selection.activeObject = transforms[0];
+				SceneView.lastActiveSceneView.FrameSelected();
+			}
 		}
 		else
 		{
